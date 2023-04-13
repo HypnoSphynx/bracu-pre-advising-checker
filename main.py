@@ -2,12 +2,28 @@
 #Author: Md. Shariar Islam Shuvo
 #email: shariaislamshuvo@gmail.com
 
-
-from bs4 import BeautifulSoup
-import requests
+import subprocess
+import sys
 from tkinter import *
 import tkinter.messagebox
 import webbrowser
+
+def install_bs4():
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "bs4"])
+try:
+    from bs4 import BeautifulSoup
+except:
+    install_bs4()
+    from bs4 import BeautifulSoup
+
+def install_requests():
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "requests"])
+
+try:
+    import requests
+except:
+    install_bs4()
+    import requests
 
 #Tkinter window setup
 root = Tk()
@@ -15,8 +31,8 @@ root.title("Pre Advising Checker")
 root.configure(background="black")
 
 #setting window size
-screen_height = 650
-screen_width = 1150
+screen_height = 1080
+screen_width = 1920
 root.geometry(f'{screen_width}x{screen_height}')
 
 
@@ -256,27 +272,27 @@ else:
 
 
     #------------------- GUI ---------------------------#
-    mainFrame = LabelFrame(root,text = "Pre Advising",bg='black')
+    mainFrame = LabelFrame(root,text = "Pre Advising",bg='black',fg='white')
     mainFrame.grid(row=0,column=0,sticky='n')
 
 
     #Search Text
-    searchTag = Label(mainFrame,text="Search:",font=("Ariel",15),bg='black')
+    searchTag = Label(mainFrame,text="Search:",font=("Ariel",15),bg='black',fg='white')
     searchTag.grid(row=0,column=0,sticky='w')
 
     #Search box
-    entryBox = Entry(mainFrame,width=31,fg='yellow')
-    entryBox.grid(row=0,column=1)
+    entryBox = Entry(mainFrame,width=42,fg='yellow',bg='black')
+    entryBox.grid(row=0,column=1,sticky='w')
     entryBox.bind('<KeyRelease>', checkkey)
 
     #Titles
     titleString = f"{'Section':<10}{'Course':<12}{'Faculty':<13}{'Free':<10}{'Time':<10}"
-    titleForList = Label(mainFrame,text=titleString, font = ("Ariel",13),fg='yellow')
+    titleForList = Label(mainFrame,text=titleString, font = ("Ariel",9),fg='yellow',bg='black')
     titleForList.grid(row=1,column=1,sticky='w')
     
 
     #list box
-    courseListViewer = Listbox(mainFrame,width= 33,height = 15)
+    courseListViewer = Listbox(mainFrame,width= 43,height = 15,bg='black',fg='white')
     courseListViewer.grid(row=2,column=1,sticky='w')
     update(courseList)
     
@@ -315,24 +331,24 @@ else:
     #Right viewer
 
     #Search box
-    entryBox_right = Entry(mainFrame,width=31,fg='yellow')
-    entryBox_right.grid(row=0,column=3)
+    entryBox_right = Entry(mainFrame,width=42,fg='yellow',bg='black')
+    entryBox_right.grid(row=0,column=3,sticky='w')
     entryBox_right.bind('<KeyRelease>', checkkey_right)
 
     #Titles
-    titleForList_right = Label(mainFrame,text=titleString, font = ("Ariel",13),fg='yellow')
+    titleForList_right = Label(mainFrame,text=titleString, font = ("Ariel",9),fg='yellow',bg='black')
     titleForList_right.grid(row=1,column=3,sticky='w')
 
     #list box
-    courseListViewer_right = Listbox(mainFrame,width= 33,height = 15)
+    courseListViewer_right = Listbox(mainFrame,width= 43,height = 15,bg='black',fg='white')
     courseListViewer_right.grid(row=2,column=3,sticky='w')
     update_right(selectedCourses)
     #--------------------------------RIGHT--------------------------------#
 
 
     #--------------------------------Table--------------------------------#
-    frame = LabelFrame(root,text="Class Schedule",bg='black')
-    frame.grid(row = 1, column=0,sticky='n',padx=0,pady=0)
+    frame = LabelFrame(root,text="Class Schedule",bg='black',fg='white')
+    frame.grid(row = 1, column=0,sticky='w',padx=0,pady=0)
 
 
     totalRow = 8
@@ -351,11 +367,11 @@ else:
     for r in range(totalRow):
         for c in range(totalColumn):
             if r==0:
-                lbl = Label(frame,text=dayNameList[c],font=("Ariel",10,'bold'),fg='#b8b8b8',width=13,height=2,borderwidth=1,relief = 'solid',padx=0,pady=0)
+                lbl = Label(frame,text=dayNameList[c],font=("Ariel",10,'bold'),fg='#b8b8b8',bg='#5A5A5A',width=13,height=2,borderwidth=1,relief = 'solid',padx=0,pady=0)
             elif r>0 and c==0:
-                lbl = Label(frame,text=timeNameList[r-1],font=("Ariel",10,'bold'),fg='#b8b8b8',width=13,height=3,borderwidth=1,relief = 'solid',padx=0,pady=0)
+                lbl = Label(frame,text=timeNameList[r-1],font=("Ariel",10,'bold'),fg='#b8b8b8',bg='#5A5A5A',width=13,height=3,borderwidth=1,relief = 'solid',padx=0,pady=0)
             else:
-                lbl = Label(frame,text="",font=("Ariel",10),fg='white',width=13,height=3,borderwidth=1,relief = 'solid',padx=0,pady=0)
+                lbl = Label(frame,text="",font=("Ariel",10,"bold"),fg='white',bg='#5A5A5A',width=13,height=3,borderwidth=1,relief = 'solid',padx=0,pady=0)
                 table[dayNameList[c]][timeNameList[r-1][:8]].append(lbl)
             lbl.grid(row=r,column=c)
 
@@ -452,62 +468,62 @@ else:
         update_right(selectedCourses)
 
     #Add
-    addButton = Button(mainFrame,text='Add',command=addBut,font = ('Ariel',15,'bold'), width =6, fg = 'green',padx=0,pady=0)
+    addButton = Button(mainFrame,text='Add',command=addBut,font = ('Ariel',15,'bold'), width =6, fg = 'green',bg='#5A5A5A',padx=0,pady=0)
     addButton.grid(row=2,column=2,sticky='n')
     #Remove
-    removeButton = Button(mainFrame,text='Remove',command=removeBut,font = ('Ariel',15,'bold'),width =6,fg='red',padx=0,pady=0)
+    removeButton = Button(mainFrame,text='Remove',command=removeBut,font = ('Ariel',15,'bold'),width =6,fg='red',bg='#5A5A5A',padx=0,pady=0)
     removeButton.grid(row=2,column=2,sticky='w')
 
     #clear
-    removeButton = Button(mainFrame,text='Clear',command=clearBut,font = ('Ariel',15,'bold'),width =6,fg='black',padx=0,pady=0)
+    removeButton = Button(mainFrame,text='Clear',command=clearBut,font = ('Ariel',15,'bold'),width =6,fg='black',bg='#5A5A5A',padx=0,pady=0)
     removeButton.grid(row=2,column=2,sticky='s')
 
     #------------------ GUI ----------------------#
 
 
     #------------------ Details Panle -----------------------#
-    details = LabelFrame(root,text='Details')
+    details = LabelFrame(root,text='Details',bg='black',fg='white')
     details.grid(row=0,column=1,sticky='n',padx=10,pady=10)
 
-    detailsLabel = Label(details,text = "",font =('Arial',20,'bold'))
+    detailsLabel = Label(details,text = "",font =('Arial',20,'bold'),bg='black')
     detailsLabel.grid(row=1,column=0,sticky='w')
-    Label(details,text=f'Course Initial:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0).grid(row=2,column=0,sticky='w')
-    Label(details,text=f'Faculty:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0).grid(row=3,column=0,sticky='w')
-    Label(details,text=f'Section:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0).grid(row=4,column=0,sticky='w')
-    Label(details,text=f'Total Seat:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0).grid(row=5,column=0,sticky='w')
-    Label(details,text=f'Seat Booked:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0).grid(row=6,column=0,sticky='w')
-    Label(details,text=f'Free Seat:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0).grid(row=7,column=0,sticky='w')
-    Label(details,text=f'Theory Class:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0).grid(row=8,column=0,sticky='w')
-    Label(details,text=f'Theory Class Time:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0).grid(row=9,column=0,sticky='w')
-    Label(details,text=f'Class Room:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0).grid(row=10,column=0,sticky='w')
-    Label(details,text=f'Lab Class:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0).grid(row=11,column=0,sticky='w')
-    Label(details,text=f'Theory Class Time:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0).grid(row=12,column=0,sticky='w')
-    Label(details,text=f'Lab Room:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0).grid(row=13,column=0,sticky='w')
+    Label(details,text=f'Course Initial:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey').grid(row=2,column=0,sticky='w')
+    Label(details,text=f'Faculty:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey').grid(row=3,column=0,sticky='w')
+    Label(details,text=f'Section:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey').grid(row=4,column=0,sticky='w')
+    Label(details,text=f'Total Seat:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey').grid(row=5,column=0,sticky='w')
+    Label(details,text=f'Seat Booked:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey').grid(row=6,column=0,sticky='w')
+    Label(details,text=f'Free Seat:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey').grid(row=7,column=0,sticky='w')
+    Label(details,text=f'Theory Class:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey').grid(row=8,column=0,sticky='w')
+    Label(details,text=f'Theory Class Time:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey').grid(row=9,column=0,sticky='w')
+    Label(details,text=f'Class Room:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey').grid(row=10,column=0,sticky='w')
+    Label(details,text=f'Lab Class:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey').grid(row=11,column=0,sticky='w')
+    Label(details,text=f'Theory Class Time:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey').grid(row=12,column=0,sticky='w')
+    Label(details,text=f'Lab Room:',font =('Arial',13),width=20,fg='yellow',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey').grid(row=13,column=0,sticky='w')
 
 
-    label1=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0)
+    label1=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey')
     label1.grid(row=2,column=1,sticky='w')
-    label2=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0)
+    label2=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey')
     label2.grid(row=3,column=1,sticky='w')
-    label3=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0)
+    label3=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey')
     label3.grid(row=4,column=1,sticky='w')
-    label4=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0)
+    label4=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey')
     label4.grid(row=5,column=1,sticky='w')
-    label5=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0)
+    label5=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey')
     label5.grid(row=6,column=1,sticky='w')
-    label6=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0)
+    label6=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey')
     label6.grid(row=7,column=1,sticky='w')
-    label7=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0)
+    label7=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey')
     label7.grid(row=8,column=1,sticky='w')
-    label8=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0)
+    label8=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey')
     label8.grid(row=9,column=1,sticky='w')
-    label9=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0)
+    label9=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey')
     label9.grid(row=10,column=1,sticky='w')
-    label10=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0)
+    label10=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey')
     label10.grid(row=11,column=1,sticky='w')
-    label11=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0)
+    label11=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey')
     label11.grid(row=12,column=1,sticky='w')
-    label12=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0)
+    label12=Label(details,text=f'',font =('Arial',13),width=20,fg='#fc03f0',borderwidth=1,relief = 'solid',padx=0,pady=0,bg='grey')
     label12.grid(row=13,column=1,sticky='w')
     
     def detailsBut():
@@ -535,7 +551,7 @@ else:
 
 
 
-    detailsButton = Button(details,text = 'Show Details',command=detailsBut,font = ('Ariel',15,'bold'),width =12,fg='#5c0049',padx=0,pady=0)
+    detailsButton = Button(details,text = 'Show Details',command=detailsBut,font = ('Ariel',15,'bold'),width =12,fg='#5c0049',bg='#5A5A5A',padx=0,pady=0)
     detailsButton.grid(row=0,column=0,sticky='w')
 
     
@@ -546,12 +562,12 @@ else:
     def callback(url):
         webbrowser.open_new(url)
 
-    github = Label(root,text='GitHub', fg="blue", bg='black', cursor="hand",font=("bold"))
+    github = Label(root,text='GitHub', fg="blue", bg='black', cursor="hand2",font=("bold"))
     github.grid(row=1,column=1,sticky='sw')
     github.bind("<Button-1>",lambda e: callback("https://github.com/ShariarShuvo1/bracu-pre-advising-checker"))
 
 
-    myName = Label(root,text='Made by: Shariar Islam Shuvo',fg='yellow',bg='black',cursor='hand')
+    myName = Label(root,text='Made by: Shariar Islam Shuvo',fg='yellow',bg='black',cursor='hand2')
     myName.grid(row=1,column=1,sticky='s')
     myName.bind("<Button-1>",lambda e: callback("https://www.facebook.com/ShariarShuvo01/"))
     #------------------ Linkes --------------------#
